@@ -4,12 +4,23 @@ const loadLessons = () => {
         .then((json) => displayBtns(json.data));
 }
 
+// remove active button
+const removeActive = () => {
+    const lessonButtons = document.querySelectorAll('.lessonBtn');
+    lessonButtons.forEach((btn) => btn.classList.remove('bg-blue-900', 'text-white'))
+}
+
 
 // lesson word called by level
 const lessonWords = (level) => {
     fetch(`https://openapi.programming-hero.com/api/level/${level}`) //lesson all words called
         .then((res) => res.json())
-        .then((json) => showLessonWords(json.data));
+        .then((json) => {
+            removeActive()
+            const activeButton = document.getElementById(`lessonBtn${level}`);
+            activeButton.classList.add('bg-blue-900', 'text-white')
+            showLessonWords(json.data)
+        });
 }
 
 
@@ -20,6 +31,13 @@ const wordDetailes = (wordId) => {
         .then((json) => showWordModal(json.data));
 };
 
+
+// word pronounciation function
+function pronounceWord(word) {
+    const utterance = new SpeechSynthesisUtterance(word);
+    utterance.lang = "en-EN"; // English
+    window.speechSynthesis.speak(utterance);
+}
 
 
 // show lessons all words
@@ -49,7 +67,7 @@ const showLessonWords = (words) => {
                         class="btn text-[#5e5e61]  w-8 h-8 flex items-center justify-center bg-[#1A91FF50] rounded-sm">
                         <i class="fa-solid fa-circle-info"></i>
                     </button>
-                    <button
+                    <button onclick="pronounceWord('${word.word}')"
                         class="btn text-[#5e5e61] w-8 h-8 flex items-center justify-center bg-[#1A91FF50] rounded-sm">
                         <i class="fa-solid fa-volume-high"></i>
                     </button>
@@ -124,7 +142,7 @@ const displayBtns = (lessons) => {
         // create new btn for every lesson
         const button = document.createElement('div')
         button.innerHTML = `
-        <button id="lessonBtn${lesson.level_no}" class="btn btn-outline btn-primary lessonBtns">
+        <button id="lessonBtn${lesson.level_no}" class="btn btn-outline btn-primary lessonBtn">
             <i class="fa-solid fa-book-open"></i>
             Lesson -${lesson.level_no}
         </button>
@@ -133,17 +151,21 @@ const displayBtns = (lessons) => {
         // append child
         lessonBtnContainer.append(button);
 
-        // active button
-        const activeButton = document.getElementById(`lessonBtn${lesson.level_no}`);
+        // // active button
+        // const activeButton = document.getElementById(`lessonBtn${lesson.level_no}`);
 
         // active button function for show it's words
-        activeButton.addEventListener('click', () => {
+        button.addEventListener("click", () => {
             lessonWords(lesson.level_no);
 
-            // function for default word section
-            const defaultWordSection = document.getElementById('default-word');
-            defaultWordSection.classList.add('hidden');
-        })
+            // hide default section
+            document.getElementById("default-word").classList.add("hidden");
+
+
+        });
+
+
+
     }
 
 
