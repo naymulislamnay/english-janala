@@ -56,20 +56,20 @@ const showLessonWords = (words) => {
         // create new card for every word
         const wordCard = document.createElement('div');
         wordCard.innerHTML = `
-            <div class="h-full text-center border border-gray-400 rounded-lg shadow-lg pt-5 pb-2.5 px-2.5 space-y-2.5 flex flex-col justify-between">
+            <div class="h-full text-center border border-gray-400 rounded-lg shadow-lg pt-1 md:pt-5 pb-1 md:pb-2.5 px-1 md:px-2.5 space-y-2.5 flex flex-col justify-between">
                 <div>
-                    <h2 class="text-2xl font-bold">${word.word}</h2>
-                    <p class="text-[16px] font-semibold">Meaning /Pronounciation</p>
-                    <h2 class="bangla-font text-2xl font-semibold text-[#5e5e61]">"${word.meaning} / ${word.pronunciation}"</h2>
+                    <h2 class="text-[16px] md:text-2xl font-bold">${word.word}</h2>
+                    <p class="text-[9px] md:text-[16px] font-semibold">Meaning /Pronounciation</p>
+                    <h2 class="bangla-font text-[12px] md:text-2xl font-semibold text-[#5e5e61]">"${word.meaning} / ${word.pronunciation}"</h2>
                 </div>
                 <div class="flex justify-between">
                     <button id= "infoId${word.id}"
-                        class="btn text-[#5e5e61]  w-8 h-8 flex items-center justify-center bg-[#1A91FF50] rounded-sm">
-                        <i class="fa-solid fa-circle-info"></i>
+                        class="btn text-[#5e5e61] w-5 h-6 md:w-8 md:h-8 flex items-center justify-center bg-[#1A91FF50] rounded-sm">
+                        <i class="fa-solid fa-circle-info text-[12px] md:text-[16px]"></i>
                     </button>
                     <button onclick="pronounceWord('${word.word}')"
-                        class="btn text-[#5e5e61] w-8 h-8 flex items-center justify-center bg-[#1A91FF50] rounded-sm">
-                        <i class="fa-solid fa-volume-high"></i>
+                        class="btn text-[#5e5e61] w-5 h-6 md:w-8 md:h-8 flex items-center justify-center bg-[#1A91FF50] rounded-sm">
+                        <i class="fa-solid fa-volume-high text-[12px] md:text-[16px]"></i>
                     </button>
                 </div>
             </div>
@@ -104,15 +104,15 @@ const showWordModal = (word) => {
     modalContainer.innerHTML = `
         <dialog id="my_modal_2" class="modal">
             <div class="modal-box">
-                <h3 class="text-lg font-bold">
+                <h3 class="text-sm md:text-lg font-bold">
                     ${word.word} 
-                    (<i class="fa-solid fa-microphone-lines"></i>: ${word.pronunciation || "-"})
+                    (<i class="fa-solid fa-microphone-lines"></i>: <span class="bangla-font">${word.pronunciation || "-"}</span>)
                 </h3>
-                <p class="mt-2 font-bold">Meaning</p>
-                <p class="py-2">${word.meaning || "-"}</p>
-                <p class="mt-2 font-bold">Example</p>
-                <p class="py-2">${word.sentence || "-"}</p>
-                <p class="mt-2 font-bold">সমার্থক শব্দ গুলো</p>
+                <p class="mt-2 font-bold text-[12px] md:text-lg">Meaning</p>
+                <p class="py-2 text-sm md:text-lg bangla-font">${word.meaning || "-"}</p>
+                <p class="mt-2 font-bold text-[12px] md:text-lg">Example</p>
+                <p class="py-2 text-[12px] md:text-lg">${word.sentence || "-"}</p>
+                <p class="bangla-font mt-2 font-bold text-[13px] md:text-lg">সমার্থক শব্দ গুলো</p>
                 <div id="synonym-words">
                     ${(word.synonyms && word.synonyms.length > 0)
             ? word.synonyms.join(", ")
@@ -142,7 +142,7 @@ const displayBtns = (lessons) => {
         // create new btn for every lesson
         const button = document.createElement('div')
         button.innerHTML = `
-        <button id="lessonBtn${lesson.level_no}" class="btn btn-outline btn-primary lessonBtn">
+        <button id="lessonBtn${lesson.level_no}" class="btn btn-outline btn-primary lessonBtn text-[10px] md:text-[14px] p-1 md:p-2">
             <i class="fa-solid fa-book-open"></i>
             Lesson -${lesson.level_no}
         </button>
@@ -174,3 +174,14 @@ const displayBtns = (lessons) => {
 
 
 loadLessons();
+
+
+// spinner
+
+// function showSpinner() {
+//     document.getElementById("page-spinner").classList.remove("hidden");
+// }
+
+// function hideSpinner() {
+//     document.getElementById("page-spinner").classList.add("hidden");
+// }
